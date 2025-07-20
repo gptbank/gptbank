@@ -2,101 +2,182 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>GPTBank</title>
   <style>
     :root {
-      --bitcoin-orange: #f7931a;
-      --light-bg: #fff9f0;
-      --text-color: #333;
-      --button-color: #f7931a;
-      --button-text: #ffffff;
+      --orange: #f7931a;
+      --light-bg: #fff8ed;
+      --text: #222;
+      --text-muted: #666;
+      --white: #fff;
     }
 
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: var(--light-bg);
-      color: var(--text-color);
+      background: var(--light-bg);
+      color: var(--text);
+      scroll-behavior: smooth;
+    }
+
+    header {
+      background: var(--white);
+      padding: 1em 2em;
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
-      padding: 20px;
+      position: sticky;
+      top: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      z-index: 999;
     }
 
     .logo {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background-color: var(--bitcoin-orange);
-      color: white;
-      font-size: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-size: 1.5em;
       font-weight: bold;
-      margin-bottom: 20px;
-      box-shadow: 0 0 20px rgba(247, 147, 26, 0.4);
+      color: var(--orange);
     }
 
-    h1 {
-      font-size: 2.5em;
-      margin: 0.5em 0;
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      color: var(--orange);
+    }
+
+    section {
+      padding: 80px 20px;
+      max-width: 960px;
+      margin: auto;
+      text-align: center;
+    }
+
+    h1, h2 {
+      color: var(--orange);
+      margin-bottom: 0.5em;
     }
 
     p {
       font-size: 1.1em;
-      max-width: 600px;
-      margin-bottom: 2em;
+      color: var(--text-muted);
+      line-height: 1.6;
     }
 
     .button {
-      background-color: var(--button-color);
-      color: var(--button-text);
+      background: var(--orange);
+      color: white;
+      padding: 12px 28px;
       border: none;
-      padding: 0.75em 1.5em;
+      border-radius: 6px;
       font-size: 1em;
-      border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      margin-top: 20px;
+      transition: background 0.3s ease;
     }
 
     .button:hover {
-      background-color: #e67e00;
+      background: #e67e00;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .feature-box {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      flex: 1 1 260px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .feature-box h3 {
+      color: var(--orange);
+      margin-bottom: 0.5em;
     }
 
     footer {
-      margin-top: 3em;
+      text-align: center;
       font-size: 0.9em;
-      color: #888;
+      color: #aaa;
+      padding: 40px 20px;
     }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2em;
+    @media (max-width: 768px) {
+      nav a {
+        margin-left: 12px;
+        font-size: 0.9em;
       }
 
-      .logo {
-        width: 60px;
-        height: 60px;
-        font-size: 32px;
+      h1 {
+        font-size: 2em;
       }
     }
   </style>
 </head>
 <body>
-  <div class="logo">₿</div>
-  <h1>Welcome to GPTBank</h1>
-  <p>The AI-native Bitcoin bank of the decentralized world.<br />
-    Built to serve the future of intelligent finance.
-  </p>
-  <button class="button">🚀 Start Banking</button>
+
+  <header>
+    <div class="logo">GPTBank</div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#features">Features</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section id="home">
+    <h1>Welcome to GPTBank</h1>
+    <p>The AI-native Bitcoin bank for the decentralized future.</p>
+    <button class="button">Start Banking</button>
+  </section>
+
+  <section id="about">
+    <h2>About GPTBank</h2>
+    <p>
+      GPTBank is an AI-driven digital bank designed for the decentralized world. 
+      We combine artificial intelligence with blockchain to deliver intelligent, 
+      transparent, and secure financial experiences for Web3 users.
+    </p>
+  </section>
+
+  <section id="features">
+    <h2>Core Features</h2>
+    <div class="features">
+      <div class="feature-box">
+        <h3>🤖 AI Wealth Assistant</h3>
+        <p>Intelligent asset insights, personalized recommendations, and market-driven portfolio analysis powered by AI.</p>
+      </div>
+      <div class="feature-box">
+        <h3>🏦 Decentralized Vault</h3>
+        <p>Secure multi-chain asset storage and contract-based banking, supporting BTC, ETH, and beyond.</p>
+      </div>
+      <div class="feature-box">
+        <h3>🧬 Web3 Identity System</h3>
+        <p>Use ENS and on-chain data to form your decentralized financial identity, credit profile, and access privileges.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>More coming soon. Stay connected.</p>
+    <p>Email / ENS / Twitter to be added</p>
+  </section>
 
   <footer>
-    Created by <strong>Ryoshi</strong> | Powered by GPT + Bitcoin
+    © 2025 GPTBank. Built for the next generation of intelligent finance.
   </footer>
+
 </body>
 </html>
