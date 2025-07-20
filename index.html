@@ -4,51 +4,56 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GPTBank</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(120deg, #ffffff, #f2f4f8);
-      color: #111;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      padding: 0;
+      background: linear-gradient(135deg, #f7931a, #ffcc70);
+      font-family: 'Arial', sans-serif;
       text-align: center;
-      padding: 40px;
+      color: #ffffff;
+    }
+
+    .container {
+      padding: 100px 20px;
     }
 
     h1 {
-      font-size: 2.5em;
-      margin-bottom: 0.2em;
+      font-size: 3.5em;
+      margin-bottom: 0.3em;
     }
 
     p {
-      font-size: 1.2em;
-      color: #444;
+      font-size: 1.3em;
+      color: #fff5dc;
+      margin-bottom: 2em;
     }
 
     .btn {
-      margin-top: 30px;
-      padding: 12px 24px;
+      display: inline-block;
+      padding: 14px 30px;
       font-size: 1em;
+      color: #f7931a;
+      background-color: #ffffff;
       border: none;
-      background-color: #111;
-      color: white;
       border-radius: 8px;
-      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
     .btn:hover {
-      background-color: #444;
+      background-color: #fff5dc;
+      color: #cc6b00;
     }
   </style>
 </head>
 <body>
-  <h1>Welcome to GPTBank</h1>
-  <p>The AI-native bank of the decentralized world.<br />Created by <strong>Ryoshi</strong>.</p>
-  <button class="btn">Launch GPTBank</button>
+  <div class="container">
+    <h1>Welcome to GPTBank</h1>
+    <p>The AI-native bank of the decentralized world.<br>Created by Ryoshi</p>
+    <a href="#" class="btn">Enter GPTBank</a>
+  </div>
 </body>
 </html>
