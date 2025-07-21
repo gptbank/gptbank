@@ -6,13 +6,24 @@
 }
 
 body {
-  background-color: #fdf6e3; /* 柔米金背景 */
-  color: #1a1a1a; /* 主字体色 */
+  /* 极光风格渐变背景（金色流动感） */
+  background: linear-gradient(135deg, #fff6d6, #f9d976, #f6c552, #f8b500);
+  background-size: 400% 400%;
+  animation: aurora 15s ease infinite;
+
+  color: #1a1a1a;
   font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
   font-size: 16px;
   line-height: 1.6;
   padding: 40px 20px;
   text-align: center;
+}
+
+/* 极光渐变动画 */
+@keyframes aurora {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Container */
@@ -30,13 +41,13 @@ h1 {
 
 .subtitle {
   font-size: 1.2em;
-  color: #555;
+  color: #333;
   margin-bottom: 1em;
 }
 
 .signature {
   font-style: italic;
-  color: #888;
+  color: #555;
   margin-bottom: 2em;
 }
 
@@ -58,7 +69,7 @@ ul {
 
 ul li {
   padding: 12px 0;
-  border-bottom: 1px solid #e0d7c5;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   color: #1a1a1a;
 }
 
@@ -77,5 +88,5 @@ a:hover {
 footer {
   margin-top: 40px;
   font-size: 0.9em;
-  color: #777;
+  color: #444;
 }
