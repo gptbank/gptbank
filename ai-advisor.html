@@ -30,6 +30,7 @@
   <h2>Start Earning</h2>
   <p><button onclick="connectWallet()" class="primary-btn">🔗 Connect Wallet</button></p>
   <p id="ensName" style="margin-top: 10px;"></p>
+<div id="aiAnalysis" style="margin-top: 20px; font-style: italic;"></div>
 </section>
     <!-- Footer -->
     <footer>
@@ -41,6 +42,35 @@
   </div>
 <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
 <script>
+  async function connectWallet() {
+    if (typeof window.ethereum !== 'undefined') {
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+        const address = await signer.getAddress();
+        const ensName = await provider.lookupAddress(address);
+
+        // 显示 ENS 或钱包地址
+        const display = ensName ? `✅ ENS: ${ensName}` : `✅ Wallet: ${address.slice(0, 6)}...${address.slice(-4)}`;
+        document.getElementById('ensName').innerText = display;
+
+        // AI 分析模拟模块
+        const aiMsg = ensName
+          ? `🔍 Your ENS “${ensName}” has been recognized. Suggested use: Reputation staking, Delegated control, AI tagging.`
+          : `🧠 Wallet ${address.slice(0, 6)}...${address.slice(-4)} shows no ENS. Suggest claiming one via gptbank.eth`;
+
+        document.getElementById('aiAnalysis').innerText = aiMsg;
+
+      } catch (err) {
+        alert('Wallet connection failed.');
+        console.error(err);
+      }
+    } else {
+      alert('Please install a Web3 wallet like MetaMask.');
+    }
+  }
+</script>
   async function connectWallet() {
     if (typeof window.ethereum !== 'undefined') {
       try {
