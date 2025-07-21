@@ -6,10 +6,10 @@
 }
 
 body {
-  /* 极光风格渐变背景（金色流动感） */
-  background: linear-gradient(135deg, #fff6d6, #f9d976, #f6c552, #f8b500);
+  /* 正宗比特币色的极光渐变背景 */
+  background: linear-gradient(135deg, #fff8e7, #ffe9b3, #ffcc00, #f7931a);
   background-size: 400% 400%;
-  animation: aurora 15s ease infinite;
+  animation: aurora 16s ease infinite;
 
   color: #1a1a1a;
   font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
@@ -19,7 +19,7 @@ body {
   text-align: center;
 }
 
-/* 极光渐变动画 */
+/* 极光流动动画 */
 @keyframes aurora {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
