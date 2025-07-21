@@ -6,8 +6,8 @@
 }
 
 body {
-  background-color: #f5c04e; /* 比特币金色背景 */
-  color: #111;
+  background-color: #f2e3c6; /* 柔和比特币金底 */
+  color: #1a1a1a; /* 深灰字体色 */
   font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
   font-size: 16px;
   line-height: 1.6;
@@ -24,8 +24,8 @@ body {
 /* Headings */
 h1 {
   font-size: 3em;
-  margin-bottom: 0.2em;
-  color: #111;
+  margin-bottom: 0.3em;
+  color: #1a1a1a;
 }
 
 .subtitle {
@@ -36,7 +36,7 @@ h1 {
 
 .signature {
   font-style: italic;
-  color: #444;
+  color: #555;
   margin-bottom: 2em;
 }
 
@@ -44,7 +44,10 @@ h2 {
   font-size: 1.6em;
   margin-top: 2.5em;
   margin-bottom: 0.8em;
-  color: #111;
+  color: #1a1a1a;
+  border-bottom: 2px solid #f7931a;
+  display: inline-block;
+  padding-bottom: 4px;
 }
 
 /* Lists */
@@ -55,17 +58,18 @@ ul {
 
 ul li {
   padding: 12px 0;
-  border-bottom: 1px solid #d6a93c;
-  color: #111;
+  border-bottom: 1px solid #d1c2a0;
+  color: #1a1a1a;
 }
 
 /* Links */
 a {
-  color: #1e90ff;
+  color: #0056b3;
   text-decoration: none;
 }
 
 a:hover {
+  color: #f7931a;
   text-decoration: underline;
 }
 
@@ -73,5 +77,5 @@ a:hover {
 footer {
   margin-top: 40px;
   font-size: 0.9em;
-  color: #444;
+  color: #666;
 }
