@@ -1,61 +1,77 @@
-body {
+/* Reset & Base */
+* {
   margin: 0;
   padding: 0;
-  background-color: #000;
-  color: #f5c518;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
+  box-sizing: border-box;
 }
 
-.container {
-  max-width: 800px;
-  margin: 0 auto;
+body {
+  background-color: #f5c04e; /* 比特币金色背景 */
+  color: #111;
+  font-family: 'Helvetica Neue', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
   padding: 40px 20px;
   text-align: center;
 }
 
+/* Container */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Headings */
 h1 {
   font-size: 3em;
   margin-bottom: 0.2em;
+  color: #111;
 }
 
 .subtitle {
   font-size: 1.2em;
-  font-weight: 300;
+  color: #333;
   margin-bottom: 1em;
-  color: #ccc;
 }
 
 .signature {
   font-style: italic;
+  color: #444;
   margin-bottom: 2em;
 }
 
 h2 {
   font-size: 1.6em;
-  margin-top: 2em;
-  margin-bottom: 0.6em;
-  color: #fff;
+  margin-top: 2.5em;
+  margin-bottom: 0.8em;
+  color: #111;
 }
 
+/* Lists */
 ul {
   list-style: none;
   padding: 0;
-  margin: 0 0 2em 0;
 }
 
 ul li {
-  padding: 10px 0;
-  border-bottom: 1px solid #333;
+  padding: 12px 0;
+  border-bottom: 1px solid #d6a93c;
+  color: #111;
 }
 
+/* Links */
 a {
-  color: #f5c518;
+  color: #1e90ff;
+  text-decoration: none;
+}
+
+a:hover {
   text-decoration: underline;
 }
 
+/* Footer */
 footer {
   margin-top: 40px;
   font-size: 0.9em;
-  color: #999;
+  color: #444;
 }
