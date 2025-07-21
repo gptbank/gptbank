@@ -25,13 +25,12 @@
       </ul>
     </section>
 
-    <!-- Call To Action -->
-    <section class="cta">
-      <h2>Start Earning</h2>
-      <p><a href="#" style="font-size: 1.2em;">🔗 Connect Wallet</a></p>
-      <p><a href="#" style="font-size: 1.2em;">📩 Subscribe to Advisor Access</a></p>
-    </section>
-
+  <!-- Call To Action -->
+<section class="cta">
+  <h2>Start Earning</h2>
+  <p><button onclick="connectWallet()" class="primary-btn">🔗 Connect Wallet</button></p>
+  <p id="ensName" style="margin-top: 10px;"></p>
+</section>
     <!-- Footer -->
     <footer>
       <p>ENS: <strong>gptbank.eth</strong></p>
@@ -40,5 +39,29 @@
     </footer>
 
   </div>
+<script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+<script>
+  async function connectWallet() {
+    if (typeof window.ethereum !== 'undefined') {
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+        const address = await signer.getAddress();
+
+        // 获取 ENS 名称（如果有）
+        const ensName = await provider.lookupAddress(address);
+        const display = ensName ? `✅ ENS: ${ensName}` : `✅ Wallet: ${address.slice(0, 6)}...${address.slice(-4)}`;
+
+        document.getElementById('ensName').innerText = display;
+      } catch (err) {
+        alert('Wallet connection failed.');
+        console.error(err);
+      }
+    } else {
+      alert('Please install a Web3 wallet like MetaMask.');
+    }
+  }
+</script>
 </body>
 </html>
