@@ -15,14 +15,28 @@ header {
   border-bottom: 2px solid #f39f36;
 }
 
+header {
+  background-color: #fff;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #f39f36;
+}
+
 header h1 {
   color: #f39f36;
   font-size: 24px;
   margin: 0;
 }
 
+nav {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 15px;
+}
+
 nav a {
-  margin: 0 10px;
   color: #333;
   text-decoration: none;
   font-weight: bold;
