@@ -52,14 +52,14 @@
           const signer = provider.getSigner();
           const address = await signer.getAddress();
 
-          // ENS 名称（如果有）
+          // 获取 ENS 名称
           const ensName = await provider.lookupAddress(address);
           const display = ensName
             ? `✅ ENS: ${ensName}`
             : `✅ Wallet: ${address.slice(0, 6)}...${address.slice(-4)}`;
           document.getElementById('ensName').innerText = display;
 
-          // AI 模拟分析内容
+          // AI 分析内容
           const aiMsg = ensName
             ? `🔍 Your ENS "${ensName}" has good onchain behavior.`
             : `🧠 Wallet ${address.slice(0, 6)}...${address.slice(-4)} seems anonymous but active.`;
