@@ -2,44 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GPTBank</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero">
       <h1>GPTBank</h1>
       <p class="subtitle">The AI-native bank of the decentralized world.</p>
       <p class="signature">Created by <strong>Ryoshi & Architect</strong></p>
     </section>
 
-    <!-- Features Section -->
+    <!-- Features -->
     <section class="features">
       <h2>What You Get</h2>
       <ul>
-        <li><strong>AI Advisor</strong>: Get smart financial suggestions 24/7</li>
-        <li><strong>Onchain Ratings</strong>: Anonymous & trusted identity scores</li>
-        <li><strong>ENS Banking</strong>: Use your ENS as your Web3 identity</li>
-        <li><strong>AI Wallet Insights</strong>: Know when to hold, sell, or buy</li>
+        <li><strong>AI Advisor:</strong> Get smart financial suggestions 24/7</li>
+        <li><strong>Onchain Ratings:</strong> Anonymous & trusted identity scores</li>
+        <li><strong>ENS Banking:</strong> Use your ENS as your Web3 identity</li>
+        <li><strong>AI Wallet Insights:</strong> Know when to hold, sell, or buy</li>
       </ul>
     </section>
 
-    <!-- Call To Action -->
+    <!-- Call to Action -->
     <section class="cta">
       <h2>Start Earning</h2>
-      <button class="primary-btn" onclick="connectWallet()">🔗 Connect Wallet</button>
+      <button onclick="connectWallet()" class="primary-btn">🔗 Connect Wallet</button>
       <p id="ensName" style="margin-top: 10px;"></p>
       <p id="aiAnalysis" style="margin-top: 10px; font-style: italic;"></p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
       <p>ENS: <strong>gptbank.eth</strong></p>
       <p><a href="https://github.com/yourusername/gptbank" target="_blank">GitHub</a></p>
       <p>Built by <strong>Ryoshi & Architect</strong> — for the decentralized AI future.</p>
-    </section>
+      <a href="ai-advisor.html" class="primary-btn">🧠 Try AI Advisor</a>
+    </footer>
   </div>
 
-  <!-- Functional Script -->
+  <!-- Script -->
   <script>
     async function connectWallet() {
       if (typeof window.ethereum !== 'undefined') {
@@ -49,25 +54,22 @@
           const signer = provider.getSigner();
           const address = await signer.getAddress();
 
-          // 获取 ENS 名称
           const ensName = await provider.lookupAddress(address);
           const display = ensName
             ? `✅ ENS: ${ensName}`
             : `✅ Wallet: ${address.slice(0, 6)}...${address.slice(-4)}`;
           document.getElementById('ensName').innerText = display;
 
-          // AI 分析结果
           const aiMsg = ensName
             ? `🔍 Your ENS "${ensName}" has good onchain behavior.`
             : `🧠 Wallet ${address.slice(0, 6)}...${address.slice(-4)} seems anonymous but active.`;
           document.getElementById('aiAnalysis').innerText = aiMsg;
-
         } catch (err) {
-          alert('⚠️ Wallet connection failed.');
+          alert('Wallet connection failed.');
           console.error(err);
         }
       } else {
-        alert('🦊 Please install a Web3 wallet like MetaMask.');
+        alert('Please install a Web3 wallet like MetaMask.');
       }
     }
   </script>
