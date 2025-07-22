@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>GPTBank</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -16,7 +16,7 @@
       <p class="signature">Created by <strong>Ryoshi & Architect</strong></p>
     </section>
 
-    <!-- Features -->
+    <!-- Features Section -->
     <section class="features">
       <h2>What You Get</h2>
       <ul>
@@ -27,17 +27,19 @@
       </ul>
     </section>
 
-    <!-- CTA -->
+    <!-- Call To Action -->
     <section class="cta">
       <h2>Start Earning</h2>
-      <button onclick="connectWallet()" class="primary-btn">🔗 Connect Wallet</button>
-      <p>ENS: <span id="ensName" style="font-weight: bold;">gptbank.eth</span></p>
-      <p><a href="https://github.com/yourusername/gptbank">GitHub</a></p>
-      <p>Built by Ryoshi & Architect — for the decentralized AI future.</p>
+      <button class="primary-btn" onclick="connectWallet()">🔗 Connect Wallet</button>
+      <p id="ensName" style="margin-top: 10px;"></p>
+      <p id="aiAnalysis" style="margin-top: 10px; font-style: italic;"></p>
+      <p>ENS: <strong>gptbank.eth</strong></p>
+      <p><a href="https://github.com/yourusername/gptbank" target="_blank">GitHub</a></p>
+      <p>Built by <strong>Ryoshi & Architect</strong> — for the decentralized AI future.</p>
     </section>
   </div>
 
-  <!-- JavaScript Section -->
+  <!-- Functional Script -->
   <script>
     async function connectWallet() {
       if (typeof window.ethereum !== 'undefined') {
@@ -47,14 +49,21 @@
           const signer = provider.getSigner();
           const address = await signer.getAddress();
 
+          // 获取 ENS 名称
           const ensName = await provider.lookupAddress(address);
           const display = ensName
             ? `✅ ENS: ${ensName}`
             : `✅ Wallet: ${address.slice(0, 6)}...${address.slice(-4)}`;
           document.getElementById('ensName').innerText = display;
 
+          // AI 分析结果
+          const aiMsg = ensName
+            ? `🔍 Your ENS "${ensName}" has good onchain behavior.`
+            : `🧠 Wallet ${address.slice(0, 6)}...${address.slice(-4)} seems anonymous but active.`;
+          document.getElementById('aiAnalysis').innerText = aiMsg;
+
         } catch (err) {
-          alert('Wallet connection failed.');
+          alert('⚠️ Wallet connection failed.');
           console.error(err);
         }
       } else {
