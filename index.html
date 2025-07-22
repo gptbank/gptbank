@@ -2,68 +2,64 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>GPTBank</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 </head>
 <body>
   <div class="container">
+    <!-- Hero Section -->
     <section class="hero">
       <h1>GPTBank</h1>
-      <p class="subtitle">The AI‑native bank of the decentralized world.</p>
+      <p class="subtitle">The AI-native bank of the decentralized world.</p>
       <p class="signature">Created by <strong>Ryoshi & Architect</strong></p>
     </section>
 
+    <!-- Features -->
     <section class="features">
       <h2>What You Get</h2>
       <ul>
-        <li><strong>AI Advisor</strong>: Smart financial suggestions</li>
-        <li><strong>On‑chain Ratings</strong>: Trusted identity scores</li>
-        <li><strong>ENS Banking</strong>: Use your ENS as your Web3 ID</li>
-        <li><strong>AI Wallet Insights</strong>: Know when to hold/sell/buy</li>
+        <li><strong>AI Advisor</strong>: Get smart financial suggestions 24/7</li>
+        <li><strong>Onchain Ratings</strong>: Anonymous & trusted identity scores</li>
+        <li><strong>ENS Banking</strong>: Use your ENS as your Web3 identity</li>
+        <li><strong>AI Wallet Insights</strong>: Know when to hold, sell, or buy</li>
       </ul>
     </section>
 
+    <!-- CTA -->
     <section class="cta">
-      <h2>Start Now</h2>
-      <p>👁 Connect your ENS name</p>
-      <p id="ensName" style="margin-top:10px;"></p>
-      <p id="aiAnalysis" style="margin-top:10px;font-style:italic;"></p>
-      <button class="primary-btn" onclick="connectWallet()">🔗 Connect Wallet</button>
-      <p>🧠 Subscribe to future AI tools</p>
-      <p>✉️ Contact: <a href="mailto:founder@gptbank.eth">founder@gptbank.eth</a></p>
-      <p><a href="ai-advisor.html" class="primary-btn">🧠 Try AI Advisor</a></p>
-    </section>
-
-    <footer>
-      <p>ENS: <strong>gptbank.eth</strong></p>
+      <h2>Start Earning</h2>
+      <button onclick="connectWallet()" class="primary-btn">🔗 Connect Wallet</button>
+      <p>ENS: <span id="ensName" style="font-weight: bold;">gptbank.eth</span></p>
       <p><a href="https://github.com/yourusername/gptbank">GitHub</a></p>
-      <p>Built by <strong>Ryoshi & Architect</strong> — for the decentralized AI future.</p>
-    </footer>
+      <p>Built by Ryoshi & Architect — for the decentralized AI future.</p>
+    </section>
   </div>
 
+  <!-- JavaScript Section -->
   <script>
     async function connectWallet() {
-      if (window.ethereum) {
+      if (typeof window.ethereum !== 'undefined') {
         try {
           const provider = new ethers.providers.Web3Provider(window.ethereum);
-          await provider.send('eth_requestAccounts', []);
+          await provider.send("eth_requestAccounts", []);
           const signer = provider.getSigner();
           const address = await signer.getAddress();
 
           const ensName = await provider.lookupAddress(address);
-          const display = ensName ? `✅ ENS: ${ensName}` : `✅ Wallet: ${address.slice(0,6)}...${address.slice(-4)}`;
+          const display = ensName
+            ? `✅ ENS: ${ensName}`
+            : `✅ Wallet: ${address.slice(0, 6)}...${address.slice(-4)}`;
           document.getElementById('ensName').innerText = display;
 
-          const aiMsg = ensName
-            ? `🔍 Your ENS "${ensName}" has good on‑chain behavior.`
-            : `🧠 Wallet ${address.slice(0,6)}...${address.slice(-4)} seems anonymous but active.`;
-          document.getElementById('aiAnalysis').innerText = aiMsg;
         } catch (err) {
-          alert('⚠️ Wallet connection failed.');
+          alert('Wallet connection failed.');
+          console.error(err);
         }
-      } else alert('🦊 Please install MetaMask.');
+      } else {
+        alert('🦊 Please install a Web3 wallet like MetaMask.');
+      }
     }
   </script>
 </body>
