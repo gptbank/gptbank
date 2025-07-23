@@ -61,7 +61,58 @@
       } else {
         alert('Please install a Web3 wallet like MetaMask.');
       }
+    <script>
+  // 模拟钱包地址识别
+  async function showAnalysis() {
+    const analysis = `
+      你当前钱包资产总额约为 1.23 ETH。  
+      主要持仓：PYTH、ARB、TAO  
+      本周建议：继续持有 TAO，观察 ARB 支撑位，PYTH 可低吸  
+      风险评级：中性偏稳健 ｜ AI建议策略：50%持仓 + 30%轮动 + 20%流动性备份  
+    `;
+
+    // 展示分析框
+    const analysisContainer = document.getElementById("analysis-container");
+    const analysisText = document.getElementById("analysis-text");
+    analysisText.innerText = analysis;
+    analysisContainer.style.display = "block";
+  }
+
+  // 钱包连接逻辑简化版本（你已有逻辑时保持不变，只加下面的触发逻辑）
+  async function connectWalletAndAnalyze() {
+    if (typeof window.ethereum !== 'undefined') {
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const walletAddress = accounts[0];
+        console.log("钱包地址连接成功：", walletAddress);
+
+        // 触发分析结果显示
+        showAnalysis();
+
+      } catch (error) {
+        console.error("连接钱包失败", error);
+      }
+    } else {
+      alert("请先安装 MetaMask 或兼容钱包");
+    }
+  }
+
+  // 绑定按钮
+  document.addEventListener("DOMContentLoaded", function () {
+    const connectBtn = document.querySelector("#connectBtn"); // 你页面中按钮ID需为 connectBtn
+    if (connectBtn) {
+      connectBtn.addEventListener("click", connectWalletAndAnalyze);
+    }
+  });
+</script>
     }
   </script>
+<!-- AI 分析展示区域 -->
+<div id="analysis-container" style="display:none; margin-top: 40px; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 12px; color: #fff; font-size: 16px;">
+  <h3 style="color: #fff;">🧠 AI 分析结果</h3>
+  <p id="analysis-text">
+    正在加载分析结果...
+  </p>
+</div>
 </body>
 </html>
