@@ -3,163 +3,138 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Advisor - GPTBank</title>
+  <title>GPTBank – AI Advisor</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <style>
+    body {
+      background-color: #fffbe6;
+      color: #111;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px 16px;
+    }
+    h1 {
+      font-size: 2.4em;
+      font-weight: bold;
+      margin-bottom: 0.5em;
+    }
+    .description {
+      font-size: 1.1em;
+      margin-bottom: 2em;
+    }
+    .features {
+      text-align: left;
+      max-width: 600px;
+      margin: auto;
+      margin-bottom: 2em;
+    }
+    .features p {
+      margin: 0.5em 0;
+    }
+    .button {
+      background-color: #ffbb00;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1em;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 8px 0;
+    }
+    #ens-analysis {
+      margin-top: 2em;
+      background: #fff3cc;
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 1em;
+      line-height: 1.6;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>AI Advisor</h1>
-    <p class="subtitle">Let your assets start working for you.</p>
 
-    <section class="features">
-      <h2>What the Advisor Can Do</h2>
-      <ul>
-        <li>📊 Analyze your wallet & generate custom insights</li>
-        <li>📈 Predict asset potential using onchain signals + AI</li>
-        <li>🧠 Give smart suggestions you can act on instantly</li>
-      </ul>
-    </section>
+  <h1>AI Advisor</h1>
+  <p class="description">Let your assets start working for you.</p>
 
-    <section class="hero">
-      <h2 style="text-align: center;">Start Earning</h2>
-      <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
-        <button id="connectBtn" class="primary-btn" style="background-color: #ffd700; color: #000; padding: 10px 20px;">
-          🪙 Connect Wallet
-        </button>
-        <p id="ensName" style="margin-top: 10px; font-size: 14px;">ENS: gptbank.eth</p>
-        <a href="https://github.com/ryoshi-eth/gptbank" target="_blank" style="color: #007bff; font-size: 14px;">GitHub</a>
-        <p id="aiAnalysis" style="margin-top: 10px; font-style: italic; font-size: 13px;"></p>
-      </div>
-    </section>
-
-    <!-- AI 分析展示区域 -->
-    <div id="analysis-container" style="display:none; margin-top: 40px; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 12px; color: #fff; font-size: 16px;">
-      <h3 style="color: #fff;">🧠 AI 分析结果</h3>
-      <p id="analysis-text">正在加载分析结果...</p>
-    </div>
- <!-- ENS 分析评级展示区域 -->
-<div id="ens-analysis" style="display: none; margin-top: 30px; background-color: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; color: #fff; font-size: 15px; line-height: 1.6;"></div>
+  <div class="features">
+    <p>📊 Analyze your wallet & generate custom insights</p>
+    <p>📈 Predict asset potential using onchain signals + AI</p>
+    <p>🧠 Give smart suggestions you can act on instantly</p>
   </div>
+
+  <button id="connectBtn" class="button">🌐 Connect Wallet</button>
+
+  <div id="ens-analysis"></div>
+
+  <p style="margin-top: 30px;">
+    ENS: <strong>gptbank.eth</strong><br/>
+    <a href="https://github.com/" target="_blank" style="color: #0077cc;">GitHub</a>
+  </p>
 
   <script>
     async function connectWalletAndAnalyze() {
       if (typeof window.ethereum !== 'undefined') {
         try {
+          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
           const provider = new ethers.providers.Web3Provider(window.ethereum);
-          await provider.send("eth_requestAccounts", []);
-          const signer = provider.getSigner();
-          const address = await signer.getAddress();
-
-          // 获取 ENS 名称
-          let ensName;
-          try {
-            ensName = await provider.lookupAddress(address);
-          } catch {
-            ensName = null;
-          }
-
-          // 显示钱包或 ENS
-          const display = ensName
-            ? `✅ ENS: ${ensName}`
-            : `✅ Wallet: ${address.slice(0, 6)}...${address.slice(-4)}`;
-          document.getElementById('ensName').innerText = display;
-
-          // AI 分析提示
-          const aiMsg = ensName
-            ? `🔍 Your ENS "${ensName}" has onchain signals. Generating insights...`
-            : `🧠 Wallet ${address.slice(0, 6)}... is being analyzed for smart actions.`;
-          document.getElementById('aiAnalysis').innerText = aiMsg;
-
-          // 展示中文分析报告
-          const analysis = `
-            你当前钱包资产总额约为 1.23 ETH。  
-            主要持仓：PYTH、ARB、TAO  
-            本周建议：继续持有 TAO，观察 ARB 支撑位，PYTH 可低吸  
-            风险评级：中性偏稳健 ｜ AI建议策略：50%持仓 + 30%轮动 + 20%流动性备份  
-          `;
-          document.getElementById("analysis-text").innerText = analysis;
-          document.getElementById("analysis-container").style.display = "block";
-
-          // 附加 AI 反馈建议
-          const aiMessage = ensName
-            ? `🧠 GPTBank Advisor Says:<br>“Your ENS (${ensName}) has strong identity value. Consider using it in Web3 apps.”`
-            : `🧠 GPTBank Advisor Says:<br>“You don't have an ENS yet. Register one to unlock full AI banking potential.”`;
-
-          const feedbackBox = document.createElement("div");
-          feedbackBox.innerHTML = aiMessage;
-          feedbackBox.style.marginTop = "30px";
-          feedbackBox.style.padding = "15px";
-          feedbackBox.style.borderRadius = "10px";
-          feedbackBox.style.backgroundColor = "#fffbe6";
-          feedbackBox.style.color = "#333";
-          feedbackBox.style.fontSize = "16px";
-          feedbackBox.style.lineHeight = "1.6";
-          feedbackBox.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
-          feedbackBox.style.maxWidth = "600px";
-
-          const walletButton = document.querySelector("#connectBtn");
-          walletButton.insertAdjacentElement("afterend", feedbackBox);
-        analyzeENSName(ensName);
+          const ensName = await provider.lookupAddress(accounts[0]);
+          console.log("ENS:", ensName);
+          analyzeENSName(ensName);
         } catch (err) {
-          alert('Wallet connection failed.');
+          alert("Wallet connection failed.");
           console.error(err);
         }
       } else {
-        alert('Please install a Web3 wallet like MetaMask.');
+        alert("Please install a Web3 wallet like MetaMask.");
       }
     }
 
-    document.addEventListener("DOMContentLoaded", function () {
-      const connectBtn = document.querySelector("#connectBtn");
+    function analyzeENSName(ensName) {
+      const analysisBox = document.getElementById("ens-analysis");
+      if (!analysisBox) return;
+
+      if (!ensName) {
+        analysisBox.innerHTML = `
+          <h3>🔍 ENS 分析</h3>
+          <p>当前钱包未绑定 ENS 名称。</p>
+          <p><strong>GPTBank 建议：</strong><br>为你的钱包注册一个 ENS，开启完整 AI 银行体验。</p>
+          <p><a href="https://app.ens.domains/" target="_blank" style="color:#0077cc;">前往 ENS 注册入口</a></p>
+        `;
+      } else {
+        // 简化评级逻辑
+        let rating = "B";
+        let traits = [];
+
+        if (ensName.length <= 7) rating = "A";
+        if (/^[0-9]{3,}\.eth$/.test(ensName)) {
+          rating = "S";
+          traits.push("纯数字 ENS");
+        }
+
+        analysisBox.innerHTML = `
+          <h3>🔍 ENS 分析结果</h3>
+          <p>ENS 名称：<strong>${ensName}</strong></p>
+          <p>评级等级：<strong>${rating}</strong></p>
+          <p>特征标签：${traits.length > 0 ? traits.join(", ") : "无特殊特征"}</p>
+          <p><strong>建议：</strong>保持长期持有，或关注市场流动性</p>
+        `;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const connectBtn = document.getElementById("connectBtn");
       if (connectBtn) {
         connectBtn.addEventListener("click", connectWalletAndAnalyze);
       }
     });
- <script>
-  function analyzeENSName(ensName) {
-    const analysisBox = document.getElementById("ens-analysis");
-
-    if (!analysisBox) return;
-
-    if (!ensName) {
-      analysisBox.innerHTML = `
-        <h3>🧠 ENS 分析</h3>
-        <p>您当前未绑定 ENS 名称。</p>
-        <p><strong>GPTBank 建议：</strong><br>
-        为你的钱包注册一个 ENS，可以开启 AI 银行完整服务体验。<br>
-        ENS 是 Web3 的域名和身份入口。</p>
-        <p>👉 <a href="https://app.ens.domains/" target="_blank" style="color: #ffd700;">前往注册 ENS</a></p>
-      `;
-    } else {
-      // 简化评分逻辑
-      let rating = "B";
-      let traits = [];
-
-      if (ensName.length <= 7) rating = "A";
-      if (/^[0-9]{3,}\.eth$/.test(ensName)) {
-        rating = "S";
-        traits.push("纯数字 ENS");
-      }
-      if (ensName.includes("bank") || ensName.includes("ai")) traits.push("品牌关键词");
-      if (ensName.length > 15) rating = "C";
-
-      const usage = "可用于品牌入口、社交身份绑定、钱包标识等。";
-
-      analysisBox.innerHTML = `
-        <h3>🧠 ENS 分析</h3>
-        <p><strong>名称：</strong> ${ensName}</p>
-        <p><strong>等级：</strong> ${rating}</p>
-        <p><strong>特征：</strong> ${traits.length > 0 ? traits.join("，") : "通用 ENS"}</p>
-        <p><strong>建议用途：</strong> ${usage}</p>
-        <p><strong>GPTBank AI 建议：</strong><br>
-        “ENS 是你在 AI 银行中的 Web3 身份核心，请充分绑定与应用。”</p>
-      `;
-    }
-
-    analysisBox.style.display = "block";
-  }
-</script>
   </script>
+
+  <!-- 加载 ethers.js -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+
 </body>
 </html>
