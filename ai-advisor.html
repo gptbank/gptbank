@@ -38,6 +38,8 @@
       <h3 style="color: #fff;">🧠 AI 分析结果</h3>
       <p id="analysis-text">正在加载分析结果...</p>
     </div>
+ <!-- ENS 分析评级展示区域 -->
+<div id="ens-analysis" style="display: none; margin-top: 30px; background-color: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; color: #fff; font-size: 15px; line-height: 1.6;"></div>
   </div>
 
   <script>
@@ -98,7 +100,7 @@
 
           const walletButton = document.querySelector("#connectBtn");
           walletButton.insertAdjacentElement("afterend", feedbackBox);
-
+        analyzeENSName(ensName);
         } catch (err) {
           alert('Wallet connection failed.');
           console.error(err);
@@ -114,6 +116,50 @@
         connectBtn.addEventListener("click", connectWalletAndAnalyze);
       }
     });
+ <script>
+  function analyzeENSName(ensName) {
+    const analysisBox = document.getElementById("ens-analysis");
+
+    if (!analysisBox) return;
+
+    if (!ensName) {
+      analysisBox.innerHTML = `
+        <h3>🧠 ENS 分析</h3>
+        <p>您当前未绑定 ENS 名称。</p>
+        <p><strong>GPTBank 建议：</strong><br>
+        为你的钱包注册一个 ENS，可以开启 AI 银行完整服务体验。<br>
+        ENS 是 Web3 的域名和身份入口。</p>
+        <p>👉 <a href="https://app.ens.domains/" target="_blank" style="color: #ffd700;">前往注册 ENS</a></p>
+      `;
+    } else {
+      // 简化评分逻辑
+      let rating = "B";
+      let traits = [];
+
+      if (ensName.length <= 7) rating = "A";
+      if (/^[0-9]{3,}\.eth$/.test(ensName)) {
+        rating = "S";
+        traits.push("纯数字 ENS");
+      }
+      if (ensName.includes("bank") || ensName.includes("ai")) traits.push("品牌关键词");
+      if (ensName.length > 15) rating = "C";
+
+      const usage = "可用于品牌入口、社交身份绑定、钱包标识等。";
+
+      analysisBox.innerHTML = `
+        <h3>🧠 ENS 分析</h3>
+        <p><strong>名称：</strong> ${ensName}</p>
+        <p><strong>等级：</strong> ${rating}</p>
+        <p><strong>特征：</strong> ${traits.length > 0 ? traits.join("，") : "通用 ENS"}</p>
+        <p><strong>建议用途：</strong> ${usage}</p>
+        <p><strong>GPTBank AI 建议：</strong><br>
+        “ENS 是你在 AI 银行中的 Web3 身份核心，请充分绑定与应用。”</p>
+      `;
+    }
+
+    analysisBox.style.display = "block";
+  }
+</script>
   </script>
 </body>
 </html>
