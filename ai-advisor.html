@@ -22,18 +22,26 @@
     </section>
 
     <section class="hero">
-  <h2 style="text-align: center;">Start Earning</h2>
-  <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
-   <button id="connectBtn" class="primary-btn" style="background-color: #ffd700; color: #000; padding: 10px 20px;" onclick="connectWallet()">🪙 Connect Wallet</button>
-    <p id="ensName" style="margin-top: 10px; font-size: 14px;">ENS: gptbank.eth</p>
-    <a href="https://github.com/ryoshi-eth/gptbank" target="_blank" style="color: #007bff; font-size: 14px;">GitHub</a>
-    <p id="aiAnalysis" style="margin-top: 10px; font-style: italic; font-size: 13px;"></p>
-  </div>
-</section>
+      <h2 style="text-align: center;">Start Earning</h2>
+      <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
+        <button id="connectBtn" class="primary-btn" style="background-color: #ffd700; color: #000; padding: 10px 20px;">
+          🪙 Connect Wallet
+        </button>
+        <p id="ensName" style="margin-top: 10px; font-size: 14px;">ENS: gptbank.eth</p>
+        <a href="https://github.com/ryoshi-eth/gptbank" target="_blank" style="color: #007bff; font-size: 14px;">GitHub</a>
+        <p id="aiAnalysis" style="margin-top: 10px; font-style: italic; font-size: 13px;"></p>
+      </div>
+    </section>
+
+    <!-- AI 分析展示区域 -->
+    <div id="analysis-container" style="display:none; margin-top: 40px; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 12px; color: #fff; font-size: 16px;">
+      <h3 style="color: #fff;">🧠 AI 分析结果</h3>
+      <p id="analysis-text">正在加载分析结果...</p>
+    </div>
   </div>
 
   <script>
-    async function connectWallet() {
+    async function connectWalletAndAnalyze() {
       if (typeof window.ethereum !== 'undefined') {
         try {
           const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -41,18 +49,55 @@
           const signer = provider.getSigner();
           const address = await signer.getAddress();
 
-          // 获取 ENS 名称（如果有）
-          const ensName = await provider.lookupAddress(address);
+          // 获取 ENS 名称
+          let ensName;
+          try {
+            ensName = await provider.lookupAddress(address);
+          } catch {
+            ensName = null;
+          }
+
+          // 显示钱包或 ENS
           const display = ensName
             ? `✅ ENS: ${ensName}`
             : `✅ Wallet: ${address.slice(0, 6)}...${address.slice(-4)}`;
           document.getElementById('ensName').innerText = display;
 
-          // AI 分析结果显示
+          // AI 分析提示
           const aiMsg = ensName
             ? `🔍 Your ENS "${ensName}" has onchain signals. Generating insights...`
             : `🧠 Wallet ${address.slice(0, 6)}... is being analyzed for smart actions.`;
           document.getElementById('aiAnalysis').innerText = aiMsg;
+
+          // 展示中文分析报告
+          const analysis = `
+            你当前钱包资产总额约为 1.23 ETH。  
+            主要持仓：PYTH、ARB、TAO  
+            本周建议：继续持有 TAO，观察 ARB 支撑位，PYTH 可低吸  
+            风险评级：中性偏稳健 ｜ AI建议策略：50%持仓 + 30%轮动 + 20%流动性备份  
+          `;
+          document.getElementById("analysis-text").innerText = analysis;
+          document.getElementById("analysis-container").style.display = "block";
+
+          // 附加 AI 反馈建议
+          const aiMessage = ensName
+            ? `🧠 GPTBank Advisor Says:<br>“Your ENS (${ensName}) has strong identity value. Consider using it in Web3 apps.”`
+            : `🧠 GPTBank Advisor Says:<br>“You don't have an ENS yet. Register one to unlock full AI banking potential.”`;
+
+          const feedbackBox = document.createElement("div");
+          feedbackBox.innerHTML = aiMessage;
+          feedbackBox.style.marginTop = "30px";
+          feedbackBox.style.padding = "15px";
+          feedbackBox.style.borderRadius = "10px";
+          feedbackBox.style.backgroundColor = "#fffbe6";
+          feedbackBox.style.color = "#333";
+          feedbackBox.style.fontSize = "16px";
+          feedbackBox.style.lineHeight = "1.6";
+          feedbackBox.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
+          feedbackBox.style.maxWidth = "600px";
+
+          const walletButton = document.querySelector("#connectBtn");
+          walletButton.insertAdjacentElement("afterend", feedbackBox);
 
         } catch (err) {
           alert('Wallet connection failed.');
@@ -61,110 +106,14 @@
       } else {
         alert('Please install a Web3 wallet like MetaMask.');
       }
-    <script>
-  // 模拟钱包地址识别
-  async function showAnalysis() {
-    const analysis = `
-      你当前钱包资产总额约为 1.23 ETH。  
-      主要持仓：PYTH、ARB、TAO  
-      本周建议：继续持有 TAO，观察 ARB 支撑位，PYTH 可低吸  
-      风险评级：中性偏稳健 ｜ AI建议策略：50%持仓 + 30%轮动 + 20%流动性备份  
-    `;
+    }
 
-    // 展示分析框
-    const analysisContainer = document.getElementById("analysis-container");
-    const analysisText = document.getElementById("analysis-text");
-    analysisText.innerText = analysis;
-    analysisContainer.style.display = "block";
-  }
-
-  // 钱包连接逻辑简化版本（你已有逻辑时保持不变，只加下面的触发逻辑）
-  async function connectWalletAndAnalyze() {
-    if (typeof window.ethereum !== 'undefined') {
-      try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const walletAddress = accounts[0];
-        console.log("钱包地址连接成功：", walletAddress);
-
-        // 触发分析结果显示
-        showAnalysis();
-
-      } catch (error) {
-        console.error("连接钱包失败", error);
+    document.addEventListener("DOMContentLoaded", function () {
+      const connectBtn = document.querySelector("#connectBtn");
+      if (connectBtn) {
+        connectBtn.addEventListener("click", connectWalletAndAnalyze);
       }
-    } else {
-      alert("请先安装 MetaMask 或兼容钱包");
-    }
-  }
-
-  // 绑定按钮
-  document.addEventListener("DOMContentLoaded", function () {
-    const connectBtn = document.querySelector("#connectBtn"); // 你页面中按钮ID需为 connectBtn
-    if (connectBtn) {
-      connectBtn.addEventListener("click", connectWalletAndAnalyze);
-    }
-  });
-</script>
-  
-<!-- AI 分析展示区域 -->
-<div id="analysis-container" style="display:none; margin-top: 40px; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 12px; color: #fff; font-size: 16px;">
-  <h3 style="color: #fff;">🧠 AI 分析结果</h3>
-  <p id="analysis-text">
-    正在加载分析结果...
-  </p>
-</div>
-<script>
-  async function showAIFeedback() {
-    try {
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      const userAddress = accounts[0];
-
-      let ensName;
-      try {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        ensName = await provider.lookupAddress(userAddress);
-      } catch (err) {
-        ensName = null;
-      }
-
-      let aiMessage;
-      if (ensName) {
-        aiMessage = `🧠 GPTBank Advisor Says:<br>“Your ENS (${ensName}) has strong identity value. Consider using it in Web3 apps.”`;
-      } else {
-        aiMessage = `🧠 GPTBank Advisor Says:<br>“You don't have an ENS yet. Register one to unlock full AI banking potential.”`;
-      }
-
-      const feedbackBox = document.createElement("div");
-      feedbackBox.innerHTML = aiMessage;
-      feedbackBox.style.marginTop = "30px";
-      feedbackBox.style.padding = "15px";
-      feedbackBox.style.borderRadius = "10px";
-      feedbackBox.style.backgroundColor = "#fffbe6";
-      feedbackBox.style.color = "#333";
-      feedbackBox.style.fontSize = "16px";
-      feedbackBox.style.lineHeight = "1.6";
-      feedbackBox.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
-      feedbackBox.style.maxWidth = "600px";
-
-      const walletButton = document.querySelector("button");
-      walletButton.insertAdjacentElement("afterend", feedbackBox);
-    } catch (e) {
-      console.error("Error fetching ENS or wallet info:", e);
-    }
-  }
-
-  // 加载 ethers.js（确保页面能识别 ENS）
-  const ethersScript = document.createElement("script");
-  ethersScript.src = "https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js";
-  ethersScript.onload = () => {
-    const walletBtn = document.querySelector('button');
-    if (walletBtn) {
-      walletBtn.addEventListener('click', () => {
-        showAIFeedback();
-      });
-    }
-  };
-  document.body.appendChild(ethersScript);
-</script>
+    });
+  </script>
 </body>
 </html>
