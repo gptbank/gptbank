@@ -113,5 +113,58 @@
     正在加载分析结果...
   </p>
 </div>
+<script>
+  async function showAIFeedback() {
+    try {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const userAddress = accounts[0];
+
+      let ensName;
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        ensName = await provider.lookupAddress(userAddress);
+      } catch (err) {
+        ensName = null;
+      }
+
+      let aiMessage;
+      if (ensName) {
+        aiMessage = `🧠 GPTBank Advisor Says:<br>“Your ENS (${ensName}) has strong identity value. Consider using it in Web3 apps.”`;
+      } else {
+        aiMessage = `🧠 GPTBank Advisor Says:<br>“You don't have an ENS yet. Register one to unlock full AI banking potential.”`;
+      }
+
+      const feedbackBox = document.createElement("div");
+      feedbackBox.innerHTML = aiMessage;
+      feedbackBox.style.marginTop = "30px";
+      feedbackBox.style.padding = "15px";
+      feedbackBox.style.borderRadius = "10px";
+      feedbackBox.style.backgroundColor = "#fffbe6";
+      feedbackBox.style.color = "#333";
+      feedbackBox.style.fontSize = "16px";
+      feedbackBox.style.lineHeight = "1.6";
+      feedbackBox.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
+      feedbackBox.style.maxWidth = "600px";
+
+      const walletButton = document.querySelector("button");
+      walletButton.insertAdjacentElement("afterend", feedbackBox);
+    } catch (e) {
+      console.error("Error fetching ENS or wallet info:", e);
+    }
+  }
+
+  // 加载 ethers.js（确保页面能识别 ENS）
+  const ethersScript = document.createElement("script");
+  ethersScript.src = "https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js";
+  ethersScript.onload = () => {
+    const walletBtn = document.querySelector('button');
+    if (walletBtn) {
+      walletBtn.addEventListener('click', () => {
+        showAIFeedback();
+      });
+    }
+  };
+  document.body.appendChild(ethersScript);
+</script>
 </body>
 </html>
